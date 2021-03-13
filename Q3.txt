@@ -1,0 +1,58 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace edgewiseMethod
+{
+    class isPrime{
+
+        public isPrime(int i,bool b)
+        {
+            this.ret = i;
+
+            this.flag = b;
+        }
+
+       public int ret;
+
+       public bool flag;
+    }
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            isPrime[] array = new isPrime[99];
+            for(int i = 0; i < 99; i++)
+            {
+                array[i] = new isPrime(i+2,true);
+            }
+
+            int m_Index = 2;
+
+            int start = 1;
+
+            while (m_Index < 99)
+            {
+                for (int i = start; i < 99; i++)
+                {
+                    if (array[i].ret % m_Index == 0&&array[i].ret/m_Index!=1)
+                    {
+                        array[i].flag = false;
+                    }
+                }
+                
+                m_Index++;
+            }
+            for (int i = 0; i < 99; i++)
+            {
+                if (array[i].flag)
+                {
+                    Console.Write("{0} ", array[i].ret);
+                }
+            }
+            Console.ReadKey();
+        }
+    }
+}
