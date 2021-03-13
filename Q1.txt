@@ -1,0 +1,64 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace primeNumber
+{
+    class Program
+    {
+
+        static void Main(string[] args)
+        {
+            Console.WriteLine("请输入一个正整数");
+
+            int m_Num = 0;
+
+            int m_Index = 0;
+
+            m_Index = m_Num = Convert.ToInt32(Console.ReadLine());
+
+            int[] array = new int[m_Num];
+
+            int length = array.Length;
+
+            int ret = 0;
+
+            if (m_Num == 1 | m_Num == 2)
+            {
+                if (m_Num == 1)
+                {
+                    Console.WriteLine("1既不是合数也不是质数");
+                }
+                else
+                {
+                    Console.WriteLine("{0}的素数因子为:", m_Num);
+
+                    Console.WriteLine("2");
+                }
+            }
+            else
+            {
+                Console.WriteLine("{0}的素数因子为:", m_Num);
+
+                for (int i = 2; i < m_Index; i++)
+                {
+                    if (m_Num % i == 0)
+                    {
+                        if (ret != i)
+                        {
+                            Console.Write("{0} ", i);
+                        }
+                        ret = i;
+
+                        m_Num /= i;
+
+                        i--;
+                    }
+                }
+            }
+            Console.ReadKey();
+        }
+    }
+}
