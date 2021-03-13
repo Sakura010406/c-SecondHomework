@@ -1,0 +1,263 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace graphCalculate
+{
+    public abstract class Graph
+    {
+        public Graph()
+        {
+
+        }
+        public abstract bool judgement
+        {
+            get;
+        }
+
+        public abstract double calculator
+        {
+            get;
+        }
+
+    }
+    public class Rectangle : Graph
+    {
+        private double m_Width;
+
+        private double m_Height;
+        public Rectangle(double width, double height)
+        {
+            this.m_Width = width;
+
+            this.m_Height = height;
+
+        }
+        public override bool judgement
+        {
+            get
+            {
+                if (this.m_Width > 0 && this.m_Height > 0)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+
+            }
+        }
+
+        public override double calculator
+        {
+            get
+            {
+                return this.m_Width * this.m_Height;
+            }
+        }
+
+
+
+    }
+    public class Triangle : Graph
+    {
+        private double m_FirstLength;
+
+        private double m_SecondLength;
+
+        private double m_ThirdLength;
+        public Triangle(double firstLength, double secondLength, double thirdLength)
+        {
+            this.m_FirstLength = firstLength;
+
+            this.m_SecondLength = secondLength;
+
+            this.m_ThirdLength = thirdLength;
+        }
+
+        public override bool judgement
+        {
+            get
+            {
+                if (this.m_FirstLength + this.m_SecondLength > this.m_ThirdLength && this.m_FirstLength + this.m_ThirdLength > this.m_SecondLength && this.m_SecondLength + this.m_ThirdLength > this.m_FirstLength)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+        }
+        public override double calculator
+        {
+            get
+            {
+                double circumference = (this.m_FirstLength + this.m_SecondLength + this.m_ThirdLength) / 2;
+
+                return Math.Sqrt(circumference * (circumference - this.m_FirstLength) * (circumference - this.m_SecondLength) * (circumference - this.m_ThirdLength));
+            }
+        }
+    }
+
+    public class Square : Graph
+    {
+        private double m_SideLength;
+        public Square(double sideLength)
+        {
+            this.m_SideLength = sideLength;
+        }
+        public override bool judgement
+        {
+            get
+            {
+                if (this.m_SideLength > 0)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+
+        }
+        public override double calculator
+        {
+            get
+            {
+                return this.m_SideLength * this.m_SideLength;
+            }
+        }
+
+    }
+    class Program
+    {
+    static void Main(string[] args)
+        {
+            double squareSum=0;
+
+            bool flag = true;
+
+            int sum = 0;
+
+            int[] indexArray = new int[10];
+
+            Random ra = new Random((int)DateTime.Now.Ticks);
+
+            Graph[] grapgArray = new Graph[10];
+
+            for(int i = 0; i < 10; i++)
+            {
+                indexArray[i] = ra.Next(0, 3);
+            }
+
+            Console.WriteLine("随机生成的十个图形及其面积如下:");
+
+            while (flag|sum<10)
+            {
+                bool calculateFlag = true;
+
+                switch (indexArray[sum])
+                {
+                    case 0:
+                        while (calculateFlag)
+                        {
+                            double lenth = 5 * ra.NextDouble();
+
+                            double width = 5 * ra.NextDouble();
+
+                            grapgArray[sum] = new Rectangle(lenth, width);
+
+                            if (grapgArray[sum].judgement)
+                            {
+                                Console.WriteLine("长方形的面积为:{0}", grapgArray[sum].calculator);
+
+                                squareSum += grapgArray[sum].calculator;
+
+                                calculateFlag = false;
+
+                            }
+                            else
+                            {
+                                calculateFlag = true;
+                            }
+                        }
+                        flag = false;
+
+                        sum++;
+
+                        break;
+                    case 1:
+                        while (calculateFlag)
+                        {
+                            double firstLenth = 5 * ra.NextDouble();
+
+                            double secondLength = 5 * ra.NextDouble();
+
+                            double thirdLength = 5 * ra.NextDouble();
+
+                            grapgArray[sum] = new Triangle(firstLenth, secondLength, thirdLength);
+
+                            if (grapgArray[sum].judgement)
+                            {
+                                Console.WriteLine("三角形的面积为:{0}", grapgArray[sum].calculator);
+
+                                squareSum += grapgArray[sum].calculator;
+
+                                calculateFlag = false;
+
+                            }
+                            else
+                            {
+                                calculateFlag = true;
+                            }
+                        }
+                        flag = false;
+
+                        sum++;
+
+                        break;
+
+                    case 2:
+                        while (calculateFlag)
+                        {
+                            double sideLength = 5 * ra.NextDouble();
+
+                            grapgArray[sum] = new Square(sideLength);
+
+                            if (grapgArray[sum].judgement)
+                            {
+                                Console.WriteLine("正方形的面积为:{0}", grapgArray[sum].calculator);
+
+                                squareSum += grapgArray[sum].calculator;
+
+                                calculateFlag = false;
+
+                            }
+                            else
+                            {
+                                calculateFlag = true;
+                            }
+                        }
+                        flag = false;
+
+                        sum++;
+
+                        break;
+
+                    default:
+
+                        break;
+                }
+
+            }
+            Console.WriteLine("十个随机生成图形的总面积为:{0}",squareSum);
+
+            Console.ReadKey();
+        }
+    }
+}
